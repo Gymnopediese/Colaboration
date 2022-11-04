@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scenes/auto.gd" type="Script" id=1]
+[ext_resource path="res://Arts/tileset/iso_tilemap.tres" type="TileSet" id=2]
+[ext_resource path="res://Scenes/scene.gd" type="Script" id=3]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="TileMap" type="TileMap" parent="."]
+mode = 1
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 64, 32 )
+format = 1
+script = ExtResource( 1 )
