@@ -9,13 +9,11 @@ extends Node
 
 # blocs pour un round (longueur)
 const y_blocks_per_round = 30;
+const y_blocks_per_checkpoint = 30;
 
 # largeur
 const x_blocks = 15;
 const x_blocks_border = 3;
-
-
-
 
 
 ###### to be defined by the settings #######
