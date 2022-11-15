@@ -1,7 +1,0 @@
-<<<<<<< HEAD
-﻿51645
-/Users/bphilago/Desktop/Godot_mono.app/Contents/MacOS/Godot
-=======
-﻿63560
-/Users/albaud/Desktop/Godot_mono.app/Contents/MacOS/Godot
->>>>>>> 2519f4ef647ce2eff2a230f36b43bf98abfabad2
