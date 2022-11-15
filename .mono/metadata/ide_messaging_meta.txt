@@ -1,0 +1,2 @@
+﻿51645
+/Users/bphilago/Desktop/Godot_mono.app/Contents/MacOS/Godot
