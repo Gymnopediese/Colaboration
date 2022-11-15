@@ -1,6 +1,6 @@
 # **************************************************************************** 
 #                                                                              
-#  Player logic -> les fleches, la selection des actions, ...
+#  Player logic -> les fleches, la selection des draw_moves, ...
 #  
 #                                                                              
 # **************************************************************************** 
@@ -14,7 +14,7 @@ NOTE: je dit stack mais enft c des list que jutilise comme stack
 # TODO: definir les types des variable si possible pour une meuilleur lisibilité
 # stack des movements
 var moves = []
-# stack de la valeur des movement (movement simple = 1 mais mouvement + action > 1)
+# stack de la valeur des movement (movement simple = 1 mais mouvement + draw_move > 1)
 var mvalue = []
 # stack des objets fleches
 var paths = []
@@ -22,10 +22,12 @@ var paths = []
 var mcount = 10
 # nombre de mouvement utilisé
 var ccount = 0
-# bool pour lancer l'animation
-var animation = false
-# vitesse de l'animation
-var SPEED = 1000
+# bool pour lancer l'is_moving
+var is_moving = false
+# vitesse de l'is_moving
+const SPEED = 1000
+
+onready var parent = get_parent()
 
 
 #detruit tout les objets dune list et clear la list
@@ -35,14 +37,18 @@ func clearObjList(list):
 	list.clear()
 		
 
+# node 2d pour mettre les couleurs la ou on va passer
+onready var color_node = load("res://color.tscn")
+
+# text pour les deplacements restants du joueur
+onready var move_text = load("res://Objects/text.tscn").instance()
+
 #spawn une nouvel flech et lajoute a la list de fleches
-func newarrow(pos, rot):
-	# var projectile = load("res://player_test/scenes/arrow.tscn")
-	var arrow = projectile.instance()
-	arrow.global_position = pos
-	arrow.rotation = rot
-	get_parent().add_child(arrow)
-	paths.push_front(arrow)
+func newarrow(pos):
+	var new_color_node = color_node.instance()
+	parent.add_child(new_color_node)
+	new_color_node.position = pos
+	paths.push_front(new_color_node)
 
 
 #clear tout les moves, detruit toutes les fleches
@@ -50,16 +56,16 @@ func clear_moves(vect):
 	moves.clear()
 	mvalue.clear()
 	clearObjList(paths)
-	get_node("fpos").global_position = vect
+	# get_node("fpos").global_position = vect
 	ccount = 0
 	moves.append(position)
 
 #push front un move donc creer une flech etc
-func push_move(vect, angle):
+func push_move(vect):
 	moves.push_front(vect)
 	mvalue.push_front(1)
-	get_node("fpos").global_position = vect
-	newarrow(vect, angle)
+	# get_node("fpos").global_position = vect
+	newarrow(vect)
 	ccount += 1
 	
 
@@ -68,11 +74,11 @@ func pop_move(vect):
 	moves.pop_front()
 	paths[0].queue_free()
 	paths.pop_front()
-	get_node("fpos").global_position = vect
+	# get_node("fpos").global_position = vect
 	ccount -= mvalue[0]
 	mvalue.pop_front()
 	
-func action(vect, angle):
+func draw_move(vect):
 	# moves[0] = derniere position enregistré
 	# set vect to position relative au dernier mouvement
 	vect = moves[0] + vect
@@ -81,60 +87,65 @@ func action(vect, angle):
 	elif len(moves) > 1 and moves[1] == vect:
 		pop_move(vect)
 	elif not moves.has(vect) and ccount < mcount:
-		push_move(vect, angle)
+		push_move(vect)
 
-# lock l'action en la prenant a la map
+# lock l'draw_move en la prenant a la map
 # TODO: peux etre ameliorer je supose
-func lock_action():
-	var items_pos = get_parent().get("items_pos")
-	var items_val = get_parent().get("items_val")
-	if items_pos.has(moves[0]):
-		var val = items_val[items_pos.find(moves[0])]
-		if mvalue[0] - 1 ==  val:
-			mvalue[0] -= val
-			ccount -= val
-		elif ccount + val <= mcount:
-			mvalue[0] += val
-			ccount += val
-		else:
-			print("shutth")
-
+func lock_draw_move():
+	var items = parent.get("items")
+	for item in items:
+		if item.pos == moves[0]:
+			if mvalue[0] - 1 ==  item.val:
+				mvalue[0] -= item.val
+				ccount -= item.val
+			elif ccount + item.val <= mcount:
+				mvalue[0] += item.val
+				ccount += item.val
+			else:
+				# TODO animation TG (text qui clignote en rouge ?)
+				print("shutth")
 
 func _input(event):
 	if (len(moves) == 0):
 		moves.append(position)
 	if event is InputEventKey:
-		if animation == false:
+		if is_moving == false:
 			if event.pressed and event.scancode == KEY_UP:
-				action(Vector2(32, -16), - PI / 4)
+				draw_move(Vector2(32, -16))
 			if event.pressed and event.scancode == KEY_DOWN:
-				action(Vector2(-32, 16), 3 * PI / 4)
+				draw_move(Vector2(-32, 16))
 			if event.pressed and event.scancode == KEY_LEFT:
-				action(Vector2(-32, -16), - 3 * PI / 4)
+				draw_move(Vector2(-32, -16))
 			if event.pressed and event.scancode == KEY_RIGHT:
-				action(Vector2(32, 16), PI / 4)
-			#CHOISIR UNE ACTION
-			if event.pressed and event.scancode == KEY_SPACE:
-				lock_action()
-		#move
+				draw_move(Vector2(32, 16))
+			if event.pressed and event.scancode == KEY_SPACE: # Agir sur la tile
+				lock_draw_move()
+		#move # TODO recevoir un signal (toutes les x secondes) pour move
 		if event.pressed and event.scancode == KEY_ENTER:
-			animation = true
+			print(len(moves))
+			is_moving = true
 			moves.pop_back()
 
+func _ready():
+	# ajoute le text qui indique le nombre de coup restant au joueur
+	add_child(move_text)
+	move_text.rect_position = Vector2(0, 0)
+
 func _process(delta):
-	#set le label pour match avec le nombre de moves restant
-	#TODO: peu etre appeler moin souvent lol
-	get_parent().get_node("Label").text = str(ccount) + " / " + str(mcount)
-	#movement de lanimation SPEEP pour gerer la vitesse de deplacement
-	#animation = True if enter press
-	#TODO: peu etre ameliorer grace au thread ou autres tech godo
-	if (animation):
+	player_move(delta)
+	# set le nombre de coup au text
+	move_text.text = str(ccount) + " / " + str(mcount)
+
+func player_move(delta):
+	# animation du joueur si is_moving == TRUE
+	# SPEEP pour gerer la vitesse de deplacement
+	if (is_moving ):
+		# TODO ca buug
 		position = position.move_toward(moves[len(moves) - 1], SPEED * delta)
 		if (moves[len(moves) - 1] == position):
 			moves.pop_back()
 			paths[len(paths) - 1].queue_free()
 			paths.pop_back()
 		if (len(moves) == 0):
-			animation = false
+			is_moving = false
 			ccount = 0
-		get_node("fpos").global_position = position
