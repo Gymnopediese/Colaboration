@@ -16,7 +16,7 @@ const x_blocks = 15;
 const x_blocks_border = 3;
 
 #Road
-const road_size = 3;
+const road_size = 4;
 
 
 ###### to be defined by the settings #######

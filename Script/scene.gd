@@ -11,13 +11,19 @@ extends Node2D
 onready var g = get_node("/root/Global")
 onready var player = load("res://Objects/player.tscn").instance()
 
-func _ready():
-	populate_player()
-	populate_items()
+var map = [[]]
 
+func _ready():
+	#populate_player()
+	populate_items()
+	for x in range (14):
+		map.append([])
+		for y in range (100):
+			map[x].append(0)
 func populate_player():
 	add_child(player)
 	player.set_position(Vector2(500, -50))
+	player.name = "Player"
 
 
 # TODO en faire une classe generale
@@ -44,6 +50,9 @@ func populate_items():
 	for item in items:
 		populate_item("res://Objects/text.tscn", item)
 		print(item.pos)
+
+func global_pos_to_map_pos(vect):
+	return Vector2(vect.x / 32, vect.y / 16)
 
 # Va populate un item (juste un nombre)
 func populate_item(path, item, rot = 0, child = true):
