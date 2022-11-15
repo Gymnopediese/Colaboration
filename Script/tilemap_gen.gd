@@ -1,3 +1,10 @@
+# **************************************************************************** 
+#                                                                              
+#  Genere automatiquement la map
+#  (Juste le fond, le "paysage" et pas les objets)                                                         
+#                                                                              
+# **************************************************************************** 
+
 extends TileMap
 
 enum t_id {		# TODO : dans global ??
