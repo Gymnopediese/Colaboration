@@ -31,7 +31,7 @@ func _ready():
 # le bridge
 func populate_chunk1(y_start: int):
 	add_child(chunk1)
-	var start = Vector2(-32, 15)
+	var start = Vector2(32, 16)
 	chunk1.set_position(start + Vector2(y_start * tile_x, y_start * -tile_y))
 
 # ajoute les bords

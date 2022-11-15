@@ -12,6 +12,7 @@ NOTE: je dit stack mais enft c des list que jutilise comme stack
 """
 # TODO: rename les variable lol
 # TODO: definir les types des variable si possible pour une meuilleur lisibilité
+var map_pos = Vector2(0, 0)
 # stack des movements
 var moves = []
 # stack de la valeur des movement (movement simple = 1 mais mouvement + draw_move > 1)
@@ -67,7 +68,9 @@ func push_move(vect):
 	# get_node("fpos").global_position = vect
 	newarrow(vect)
 	ccount += 1
-	
+
+func global_pos_to_map_pos(vect):
+	return Vector2(vect.x / 16, vect.y / 16)
 
 #pop un move donc detruit les fleches et recalcule le conteur
 func pop_move(vect):
@@ -82,6 +85,9 @@ func draw_move(vect):
 	# moves[0] = derniere position enregistré
 	# set vect to position relative au dernier mouvement
 	vect = moves[0] + vect
+	var mpos = global_pos_to_map_pos(vect);
+	if mpos.x < 0 or mpos.y < 0:
+		return
 	if (vect == position):
 		clear_moves(vect)
 	elif len(moves) > 1 and moves[1] == vect:
@@ -121,7 +127,7 @@ func _input(event):
 			if event.pressed and event.scancode == KEY_SPACE: # Agir sur la tile
 				lock_draw_move()
 		#move # TODO recevoir un signal (toutes les x secondes) pour move
-		if event.pressed and event.scancode == KEY_ENTER:
+		if event.pressed and event.scancode == KEY_ENTER and not is_moving:
 			print(len(moves))
 			is_moving = true
 			moves.pop_back()
@@ -135,7 +141,15 @@ func _process(delta):
 	player_move(delta)
 	# set le nombre de coup au text
 	move_text.text = str(ccount) + " / " + str(mcount)
-
+	debug_position()
+	
+#64, 64 = map[0][0]
+var a = 0
+func debug_position():
+	a += 1
+	if a > 1000:
+		a = 0
+		print(position)
 func player_move(delta):
 	# animation du joueur si is_moving == TRUE
 	# SPEEP pour gerer la vitesse de deplacement

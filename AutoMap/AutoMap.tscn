@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Scenes/auto.gd" type="Script" id=1]
+[ext_resource path="res://AutoMap/auto.gd" type="Script" id=1]
 [ext_resource path="res://Arts/tileset/iso_tilemap.tres" type="TileSet" id=2]
 
 [node name="TileMap" type="TileMap"]
