@@ -1,19 +1,22 @@
-# **************************************************************************** 
-#                                                                              
-#  Set d'informations accessibles
-#  Dans tout le projet                                                         
-#                                                                              
-# **************************************************************************** 
+# **************************************************************************** #
+#                                                                              #
+#  Est plus un set d'informations qui vont etre accessible					   #
+#  Dans tout le projet                                                         #
+#                                                                              #
+# **************************************************************************** #
 
 extends Node
 
 # blocs pour un round (longueur)
-const y_blocks_per_round = 30;
-const y_blocks_per_checkpoint = 30;
+const y_blocks_per_round = 15;
+const y_blocks_per_checkpoint = 11;
 
 # largeur
 const x_blocks = 15;
 const x_blocks_border = 3;
+
+#Road
+const road_size = 3;
 
 
 ###### to be defined by the settings #######
