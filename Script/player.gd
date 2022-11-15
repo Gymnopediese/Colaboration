@@ -6,6 +6,7 @@
 # **************************************************************************** 
 
 extends KinematicBody2D
+onready var g = get_node("/root/Global")
 
 """
 NOTE: je dit stack mais enft c des list que jutilise comme stack
@@ -69,8 +70,6 @@ func push_move(vect):
 	newarrow(vect)
 	ccount += 1
 
-func global_pos_to_map_pos(vect):
-	return Vector2(vect.x / 16, vect.y / 16)
 
 #pop un move donc detruit les fleches et recalcule le conteur
 func pop_move(vect):
@@ -85,7 +84,7 @@ func draw_move(vect):
 	# moves[0] = derniere position enregistré
 	# set vect to position relative au dernier mouvement
 	vect = moves[0] + vect
-	var mpos = global_pos_to_map_pos(vect);
+	var mpos = g.global_pos_to_map_pos(vect);
 	if mpos.x < 0 or mpos.y < 0:
 		return
 	if (vect == position):

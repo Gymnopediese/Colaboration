@@ -13,6 +13,7 @@ func _ready():
 
 func camtrack(num):
 	return (num) * 0.5 - 160
+
 func _process(delta):
 	position.x = players[0].position.x
 	position.y = -camtrack(players[0].position.x)

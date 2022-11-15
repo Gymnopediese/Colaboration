@@ -22,8 +22,11 @@ const road_size = 4;
 ###### to be defined by the settings #######
 
 var number_of_rounds = 3		# Le nombre de checkpoint / de round
-var number_of_players = 2
 var action_speed = 5			# temps d'une action en secondes : va determiner la vitesse du jeu
+var number_of_players = 2
 
 
-#####
+
+#### UTILS.gd 
+func global_pos_to_map_pos(vect):
+	return Vector2(vect.x / 16, vect.y / 16)
