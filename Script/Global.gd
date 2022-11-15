@@ -26,4 +26,4 @@ var number_of_players = 2
 var action_speed = 5			# temps d'une action en secondes : va determiner la vitesse du jeu
 
 
-var test = 0
+#####

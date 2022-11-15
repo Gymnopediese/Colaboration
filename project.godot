@@ -10,18 +10,18 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Node2D",
-"class": "MoveColor",
+"class": "Item",
 "language": "GDScript",
-"path": "res://Script/color.gd"
+"path": "res://Script/Item.gd"
 } ]
 _global_script_class_icons={
-"MoveColor": ""
+"Item": ""
 }
 
 [application]
 
 config/name="Collab"
-run/main_scene="res://main.tscn"
+run/main_scene="res://test_2cam_alexandre.tscn"
 config/icon="res://icon.png"
 
 [autoload]

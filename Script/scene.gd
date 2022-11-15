@@ -8,58 +8,32 @@
 
 extends Node2D
 
+signal action
+signal walked
+
 onready var g = get_node("/root/Global")
 onready var player = load("res://Objects/player.tscn").instance()
 
+var items = []
 var map = [[]]
 
 func _ready():
-	#populate_player()
-	populate_items()
-	for x in range (14):
-		map.append([])
-		for y in range (100):
-			map[x].append(0)
+	#populate_items()
+	#for x in range (14):
+	#	map.append([])
+	#	for y in range (100):
+	#		map[x].append(0)
+	items.push_back(Item.new(0, 0, "res://Objects/text.tscn", self))
+	populate_player()
+	# TODO test signal
+	emit_signal("action")
+
+# TODO dynamic
 func populate_player():
 	add_child(player)
 	player.set_position(Vector2(500, -50))
 	player.name = "Player"
 
-
-# TODO en faire une classe generale
-class Item:
-	var pos: Vector2
-	var val: int
-	
-# TODO en faire une method !
-func from(pos, val):
-	var res = Item.new()
-	res.pos = pos
-	res.val = val
-	return res
-
-
-export onready var items = [
-		from(Vector2(0, 0), 1),
-		from(Vector2(10, 10), 2),
-		from(Vector2(100, 100), 3)
-	]
-
-# tout les items
-func populate_items():
-	for item in items:
-		populate_item("res://Objects/text.tscn", item)
-		print(item.pos)
-
+# TODO mettre dans utils.gd
 func global_pos_to_map_pos(vect):
 	return Vector2(vect.x / 32, vect.y / 16)
-
-# Va populate un item (juste un nombre)
-func populate_item(path, item, rot = 0, child = true):
-	var projectile = load(path).instance()
-	add_child(projectile)
-	projectile.rect_position = item.pos
-	projectile.text = str(item.val)
-
-
-

@@ -128,7 +128,7 @@ func _input(event):
 				lock_draw_move()
 		#move # TODO recevoir un signal (toutes les x secondes) pour move
 		if event.pressed and event.scancode == KEY_ENTER and not is_moving:
-			print(len(moves))
+			#print(len(moves))
 			is_moving = true
 			moves.pop_back()
 
@@ -155,11 +155,12 @@ func player_move(delta):
 	# SPEEP pour gerer la vitesse de deplacement
 	if (is_moving ):
 		# TODO ca buug
-		position = position.move_toward(moves[len(moves) - 1], SPEED * delta)
-		if (moves[len(moves) - 1] == position):
-			moves.pop_back()
-			paths[len(paths) - 1].queue_free()
-			paths.pop_back()
-		if (len(moves) == 0):
+		if len(moves) != 0:
+			position = position.move_toward(moves[len(moves) - 1], SPEED * delta)
+			if (moves[len(moves) - 1] == position):
+				moves.pop_back()
+				paths[len(paths) - 1].queue_free()
+				paths.pop_back()
+		else:
 			is_moving = false
 			ccount = 0
