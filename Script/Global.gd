@@ -8,8 +8,8 @@
 extends Node
 
 # blocs pour un round (longueur)
-const y_blocks_per_round = 30;
-const y_blocks_per_checkpoint = 30;
+const y_blocks_per_round = 15;
+const y_blocks_per_checkpoint = 11;
 
 # largeur
 const x_blocks = 15;
