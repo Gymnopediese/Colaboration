@@ -14,12 +14,11 @@ onready var player = load("res://Objects/player.tscn").instance()
 var map = [[]]
 
 func _ready():
+	process_priority = -100
 	#populate_player()
 	populate_items()
-	for x in range (14):
-		map.append([])
-		for y in range (100):
-			map[x].append(0)
+
+
 func populate_player():
 	add_child(player)
 	player.set_position(Vector2(500, -50))
@@ -45,6 +44,7 @@ export onready var items = [
 		from(Vector2(100, 100), 3)
 	]
 
+
 # tout les items
 func populate_items():
 	for item in items:
@@ -52,7 +52,7 @@ func populate_items():
 		print(item.pos)
 
 func global_pos_to_map_pos(vect):
-	return Vector2(vect.x / 32, vect.y / 16)
+	return Vector2(vect.x / 32 + vect.y / 16, vect.x / 16 + vect.y / 32)
 
 # Va populate un item (juste un nombre)
 func populate_item(path, item, rot = 0, child = true):

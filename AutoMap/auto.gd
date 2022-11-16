@@ -18,10 +18,17 @@ onready var checkpoint = load("res://Map/Checkpoints/Checkpoint.tscn").instance(
 var chunk1 = load("res://Map/Pont.tscn").instance()
 const tile_x = 32
 const tile_y = 16
+
 var rng = RandomNumberGenerator.new();
 
+#TODO: CASSE TOI DE LAAAAA (mais jai pas le choix pour le moment c la vie pardon)
+var map
+
 func _ready():
-	rng.seed = 42
+	print("col")
+	map = get_parent().get("map")
+	rng.seed = OS.get_time().second
+	#rng.seed = 42
 	var round_size : int = -g.y_blocks_per_round - g.y_blocks_per_checkpoint
 	var distance : int
 	#populate_chunk1(5)
@@ -33,6 +40,11 @@ func _ready():
 		populate_wheat(distance)
 		add_check_point(-g.y_blocks_per_round + distance, checkpoint, checkpoint.get_node("Layer2"))
 		distance += round_size
+
+# set cell + set colition
+func set_sell_and_colid(x, y, tile, obj):
+	obj.set_cell(x, y, tile)
+	map[x - 2][-y - 1].colision = true;
 
 # le bridge
 func populate_chunk1(y_start: int):
@@ -46,7 +58,7 @@ func populate_border(start : int):
 		for y in range(start, -g.y_blocks_per_round + start, -1):
 			set_cell(x, y, t_id.water)
 			set_cell(x + g.x_blocks_border + g.x_blocks, y, t_id.water)
-
+			
 # ajoute une premiere couche d'herbe qui va etre ecrasee
 # par le random apres coup
 func populate_basic_middle(start : int):
@@ -85,8 +97,8 @@ func populate_wheat(start : int):
 	for x in range(g.x_blocks):
 		for y in range(start, -g.y_blocks_per_round + start, -1):
 			if (get_cell(x + g.x_blocks_border, y) == t_id.dirt):
-				$Layer2.set_cell(x + g.x_blocks_border - 1, y - 1, t_id.wheat)
-
+				set_sell_and_colid(x + g.x_blocks_border - 1, y - 1, t_id.wheat, $Layer2)
+				
 func add_check_point(y_start : int, Layer1 : TileMap, Layer2 : TileMap):
 	for x in range(g.x_blocks + g.x_blocks_border * 2):
 		for y in range (0, -g.y_blocks_per_checkpoint, -1):

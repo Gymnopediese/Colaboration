@@ -13,6 +13,7 @@ NOTE: je dit stack mais enft c des list que jutilise comme stack
 # TODO: rename les variable lol
 # TODO: definir les types des variable si possible pour une meuilleur lisibilité
 var map_pos = Vector2(0, 0)
+var map_pos_current = Vector2(0, 0)
 # stack des movements
 var moves = []
 # stack de la valeur des movement (movement simple = 1 mais mouvement + draw_move > 1)
@@ -20,13 +21,15 @@ var mvalue = []
 # stack des objets fleches
 var paths = []
 # nombre de mouvement
-var mcount = 10
+var mcount = 100
 # nombre de mouvement utilisé
 var ccount = 0
 # bool pour lancer l'is_moving
 var is_moving = false
 # vitesse de l'is_moving
-const SPEED = 1000
+const SPEED = 100
+
+onready var map = get_parent().get("map")
 
 onready var parent = get_parent()
 
@@ -69,8 +72,7 @@ func push_move(vect):
 	newarrow(vect)
 	ccount += 1
 
-func global_pos_to_map_pos(vect):
-	return Vector2(vect.x / 16, vect.y / 16)
+
 
 #pop un move donc detruit les fleches et recalcule le conteur
 func pop_move(vect):
@@ -81,19 +83,22 @@ func pop_move(vect):
 	ccount -= mvalue[0]
 	mvalue.pop_front()
 	
-func draw_move(vect):
+func draw_move(vect, vect_map):
 	# moves[0] = derniere position enregistré
 	# set vect to position relative au dernier mouvement
 	vect = moves[0] + vect
-	var mpos = global_pos_to_map_pos(vect);
-	if mpos.x < 0 or mpos.y < 0:
+	var temp = map_pos + vect_map
+	if temp.x < 0 or temp.y < 0 or temp.y > 100 or temp.x > 14 or map[temp.x][temp.y].colision:
 		return
+	map_pos += vect_map
 	if (vect == position):
 		clear_moves(vect)
 	elif len(moves) > 1 and moves[1] == vect:
 		pop_move(vect)
 	elif not moves.has(vect) and ccount < mcount:
 		push_move(vect)
+	else:
+		map_pos -= vect_map
 
 # lock l'draw_move en la prenant a la map
 # TODO: peux etre ameliorer je supose
@@ -117,20 +122,20 @@ func _input(event):
 	if event is InputEventKey:
 		if is_moving == false:
 			if event.pressed and event.scancode == KEY_UP:
-				draw_move(Vector2(32, -16))
+				draw_move(Vector2(32, -16), Vector2(0, 1))
 			if event.pressed and event.scancode == KEY_DOWN:
-				draw_move(Vector2(-32, 16))
+				draw_move(Vector2(-32, 16), Vector2(0, -1))
 			if event.pressed and event.scancode == KEY_LEFT:
-				draw_move(Vector2(-32, -16))
+				draw_move(Vector2(-32, -16), Vector2(-1, 0))
 			if event.pressed and event.scancode == KEY_RIGHT:
-				draw_move(Vector2(32, 16))
+				draw_move(Vector2(32, 16), Vector2(1, 0))
 			if event.pressed and event.scancode == KEY_SPACE: # Agir sur la tile
 				lock_draw_move()
 		#move # TODO recevoir un signal (toutes les x secondes) pour move
-		if event.pressed and event.scancode == KEY_ENTER and not is_moving:
-			print(len(moves))
+		if event.pressed and event.scancode == KEY_ENTER:
 			is_moving = true
 			moves.pop_back()
+			map_pos_current = map_pos
 
 func _ready():
 	# ajoute le text qui indique le nombre de coup restant au joueur
@@ -150,10 +155,11 @@ func debug_position():
 	if a > 1000:
 		a = 0
 		print(position)
+		print(map_pos)
 func player_move(delta):
 	# animation du joueur si is_moving == TRUE
 	# SPEEP pour gerer la vitesse de deplacement
-	if (is_moving ):
+	if is_moving and len(moves) > 0:
 		# TODO ca buug
 		position = position.move_toward(moves[len(moves) - 1], SPEED * delta)
 		if (moves[len(moves) - 1] == position):
@@ -163,3 +169,4 @@ func player_move(delta):
 		if (len(moves) == 0):
 			is_moving = false
 			ccount = 0
+			
