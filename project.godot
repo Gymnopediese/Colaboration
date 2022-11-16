@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Collab"
-run/main_scene="res://test_2cam_alexandre.tscn"
+run/main_scene="res://GUI/Menu/main_menu.tscn"
 config/icon="res://icon.png"
 
 [autoload]
