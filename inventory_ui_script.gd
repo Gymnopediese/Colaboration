@@ -1,23 +1,36 @@
 extends CanvasLayer
 
-
 # TODO : les infos live des joueurs doivent etre dispo dans Global !
 onready var g = $"/root/Global"
+onready var item_folder_prefab = load("res://inventory_ui.tscn") # TODO -> changer d'endroit !
 
-# Get les text dans le CanvasLayer (Le seul truc a ne pas changer !!)
-# !!! les noms ne doivent pas changer dans l'editeur !
-# TODO access direct avec le $ ??
-onready var moving_points_text = $MovePointsColorRect/MovingPoints
-onready var moving_points_max_text = $MovePointsColorRect/MovingPointsMax
-onready var timer_counter_text = $TimerColorRect/TimeCounter
-onready var gold_count_text = $GoldColorRect/GoldCount
+# TODO : dans global ?
+const item_folder_quantity: int = 6
 
+var item_folder_objects = []
+
+
+# Avec un ID par (type d') objet, ca me permet ici de prendre directement le sprite
+# Et pas de lier autrement.
+# Comme ca je gere la taille du sprite de l'item direct dans l'inventaire
+enum ItemTypeId {
+	POT_DE_FLEUR,
+	EXAMPLE2
+}
 
 func _ready():
-	# TODO verifie que les scores sont a 0 ??
-	pass
+	instanciate_item_folders()
 
-var gold: int = 1
+
+func instanciate_item_folders():
+	for i in range(0, item_folder_quantity):
+		item_folder_objects.push_back(instanciate_item_folder())
+		
+func instanciate_item_folder():
+	var object = item_folder_prefab.instance()
+	# TODO
+	return object
+
 # TODO utiliser des signaux pour moins de render ??
 func _process(delta):
 	# TODO if le state du jeu n'est pas "pause" ou autre ?
@@ -26,11 +39,10 @@ func _process(delta):
 	# update_gold_score(g.player.gold_score)
 	# TODO if les move points on change:
 	# update_gold_score(g.player.gold_score)
-	
-	# TEST
-	gold = 1 + gold
-	print(gold)
-	update_gold_score(gold)
+
+	#update_gold_score(gold)
+	pass
+"""
 
 func update_gold_score(new_score: int):
 	print (new_score)
@@ -47,3 +59,4 @@ func update_move_points(new_points: int,  new_max: int):
 func update_timer(new_decount: int, _delta: float):
 	# TODO int ou float ?? (Quentin prefere int)
 	timer_counter_text.text = str(new_decount)
+"""
