@@ -14,7 +14,6 @@ signal walked
 onready var g = get_node("/root/Global")
 onready var player = load("res://Objects/player.tscn").instance()
 
-var items = []
 var map = [[]]
 
 func _ready():
@@ -33,11 +32,13 @@ func populate_player():
 	player.name = "Player"
 
 # TODO en faire une classe generale
-class Item:
-	var pos: Vector2
-	var val: int
+#class Item:
+#	var pos: Vector2
+#	var val: int
 	
 # TODO en faire une method !
+var items = []
+"""
 func from(pos, val):
 	var res = Item.new()
 	res.pos = pos
@@ -50,7 +51,7 @@ export onready var items = [
 		from(Vector2(10, 10), 2),
 		from(Vector2(100, 100), 3)
 	]
-
+"""
 
 # tout les items
 func populate_items():

@@ -159,7 +159,7 @@ func debug_position():
 func player_move(delta):
 	# animation du joueur si is_moving == TRUE
 	# SPEEP pour gerer la vitesse de deplacement
-	if is_moving and len(moves) > 0:
+	if is_moving:
 		# TODO ca buug
 		if len(moves) != 0:
 			position = position.move_toward(moves[len(moves) - 1], SPEED * delta)
