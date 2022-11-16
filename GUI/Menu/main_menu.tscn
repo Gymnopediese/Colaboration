@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://GUI/Menu/Menu.gd" type="Script" id=1]
+[ext_resource path="res://Objects/text.tscn" type="PackedScene" id=2]
 
 [node name="Menu" type="Control"]
 anchor_right = 1.0
@@ -17,24 +18,51 @@ margin_top = -175.0
 margin_right = 28.0
 
 [node name="StartButton" type="Button" parent="VBoxContainer"]
-margin_right = 56.0
+margin_right = 97.0
 margin_bottom = 20.0
 focus_neighbour_top = NodePath("../QuitButton")
 text = "Start"
 
 [node name="OptionButton" type="Button" parent="VBoxContainer"]
 margin_top = 24.0
-margin_right = 56.0
+margin_right = 97.0
 margin_bottom = 44.0
 text = "Option"
 
-[node name="QuitButton" type="Button" parent="VBoxContainer"]
+[node name="CreateServerButton" type="Button" parent="VBoxContainer"]
 margin_top = 48.0
-margin_right = 56.0
+margin_right = 97.0
 margin_bottom = 68.0
+text = "Create Server"
+
+[node name="JoinServerButton" type="Button" parent="VBoxContainer"]
+margin_top = 72.0
+margin_right = 97.0
+margin_bottom = 92.0
+text = "Join Server"
+
+[node name="QuitButton" type="Button" parent="VBoxContainer"]
+margin_top = 96.0
+margin_right = 97.0
+margin_bottom = 116.0
 focus_neighbour_bottom = NodePath("../StartButton")
 text = "Quit"
 
+[node name="device_ip_adresse" parent="." instance=ExtResource( 2 )]
+margin_left = 701.0
+margin_top = 488.0
+margin_right = 871.0
+margin_bottom = 513.0
+text = "p adress"
+
+[node name="LineEdit" type="LineEdit" parent="."]
+margin_left = 737.0
+margin_top = 449.0
+margin_right = 834.0
+margin_bottom = 473.0
+
 [connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/OptionButton" to="." method="_on_OptionButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/CreateServerButton" to="." method="_on_CreateServerButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/JoinServerButton" to="." method="_on_JoinServerButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]

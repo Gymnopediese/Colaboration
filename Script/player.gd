@@ -30,6 +30,7 @@ var is_moving = false
 const SPEED = 100
 
 onready var map = get_parent().get("map")
+onready var t_map : Game_Area = get_parent().get_node("TileMap")
 
 onready var parent = get_parent()
 
@@ -88,7 +89,7 @@ func draw_move(vect, vect_map):
 	# set vect to position relative au dernier mouvement
 	vect = moves[0] + vect
 	var temp = map_pos + vect_map
-	if temp.x < 0 or temp.y < 0 or temp.y > 100 or temp.x > 14 or map[temp.x][temp.y].colision:
+	if !t_map.can_move(temp):
 		return
 	map_pos += vect_map
 	if (vect == position):

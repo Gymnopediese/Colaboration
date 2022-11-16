@@ -1,4 +1,5 @@
 extends TileMap
+class_name Game_Area
 
 enum t_id {		# TODO : dans global ??
 	grass,
@@ -104,3 +105,9 @@ func add_check_point(y_start : int, Layer1 : TileMap, Layer2 : TileMap):
 		for y in range (0, -g.y_blocks_per_checkpoint, -1):
 			set_cell(x, y + y_start, Layer1.get_cell(x, y))
 			$Layer2.set_cell(x, y + y_start, Layer2.get_cell(x, y))
+			
+func can_move(position : Vector2) -> int :
+	if (get_cell(g.x_blocks_border + position.x, -position.y) == t_id.water || g.x_blocks_border + position.x < 0 || g.x_blocks_border + position.x > g.x_blocks + g.x_blocks_border || position.y < 0): #Modifier cette merde
+		return 0
+	else:
+		return 1
