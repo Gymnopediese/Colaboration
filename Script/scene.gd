@@ -54,6 +54,7 @@ export onready var items = [
 	]
 """
 
+
 # tout les items
 func populate_items():
 	for item in items:

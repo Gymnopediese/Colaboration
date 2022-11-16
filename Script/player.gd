@@ -90,7 +90,7 @@ func draw_move(vect, vect_map):
 	# set vect to position relative au dernier mouvement
 	vect = moves[0] + vect
 	var temp = map_pos + vect_map
-	if temp.x < 0 or temp.y < 0 or Scene.map[temp.x][temp.y].colision:
+	if temp.x < 0 or temp.y < 0 or temp.x > 14 or temp.y > 100 or Scene.map[temp.x][temp.y].colision:
 		return
 	#if !t_map.can_move(temp):
 	#	return

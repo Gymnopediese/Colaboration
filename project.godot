@@ -27,7 +27,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Collab"
-run/main_scene="res://GUI/Menu/main_menu.tscn"
+run/main_scene="res://main.tscn"
 config/icon="res://icon.png"
 
 [autoload]
