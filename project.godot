@@ -10,12 +10,12 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Node2D",
-"class": "MoveColor",
+"class": "Item",
 "language": "GDScript",
-"path": "res://Script/color.gd"
+"path": "res://Script/Item.gd"
 } ]
 _global_script_class_icons={
-"MoveColor": ""
+"Item": ""
 }
 
 [application]

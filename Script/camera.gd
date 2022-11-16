@@ -17,6 +17,7 @@ func _ready():
 func camtrack(num):
 	return (num) * 0.5 - 160
 
+
 func set_pos_mode_1(delta, name):
 	var xtemp = players[0].get(name).y * 32
 	var x = xtemp + 500
@@ -30,6 +31,7 @@ func set_pos_mode_2(delta):
 	diff = abs(- map_pos.y + map_pos_current.y) / ZOOMING + 1
 	zoom = zoom.move_toward(Vector2(diff, diff), SPEED2 * delta)
 	set_pos_mode_1(delta, "map_pos_current")
+
 
 func _process(delta):
 	set_pos_mode_2(delta)

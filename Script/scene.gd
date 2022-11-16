@@ -8,22 +8,29 @@
 
 extends Node2D
 
+signal action
+signal walked
+
 onready var g = get_node("/root/Global")
 onready var player = load("res://Objects/player.tscn").instance()
 
+var items = []
 var map = [[]]
 
 func _ready():
 	process_priority = -100
 	#populate_player()
 	populate_items()
+	items.push_back(Item.new(0, 0, "res://Objects/text.tscn", self))
+	populate_player()
+	# TODO test signal
+	emit_signal("action")
 
-
+# TODO dynamic
 func populate_player():
 	add_child(player)
 	player.set_position(Vector2(500, -50))
 	player.name = "Player"
-
 
 # TODO en faire une classe generale
 class Item:
@@ -60,6 +67,4 @@ func populate_item(path, item, rot = 0, child = true):
 	add_child(projectile)
 	projectile.rect_position = item.pos
 	projectile.text = str(item.val)
-
-
 

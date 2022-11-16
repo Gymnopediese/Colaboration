@@ -42,7 +42,7 @@ func clearObjList(list):
 		
 
 # node 2d pour mettre les couleurs la ou on va passer
-onready var color_node = load("res://color.tscn")
+onready var color_node = load("res://Objects/tile_path.tscn")
 
 # text pour les deplacements restants du joueur
 onready var move_text = load("res://Objects/text.tscn").instance()
@@ -161,12 +161,13 @@ func player_move(delta):
 	# SPEEP pour gerer la vitesse de deplacement
 	if is_moving and len(moves) > 0:
 		# TODO ca buug
-		position = position.move_toward(moves[len(moves) - 1], SPEED * delta)
-		if (moves[len(moves) - 1] == position):
-			moves.pop_back()
-			paths[len(paths) - 1].queue_free()
-			paths.pop_back()
-		if (len(moves) == 0):
+		if len(moves) != 0:
+			position = position.move_toward(moves[len(moves) - 1], SPEED * delta)
+			if (moves[len(moves) - 1] == position):
+				moves.pop_back()
+				paths[len(paths) - 1].queue_free()
+				paths.pop_back()
+		else:
 			is_moving = false
 			ccount = 0
 			
