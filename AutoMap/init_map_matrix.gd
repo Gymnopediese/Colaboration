@@ -22,7 +22,6 @@ func populate_map():
 			map[x][y].item = 0;
 
 func _ready():
-	print("mapinit")
 	populate_map()
 	
 

@@ -29,11 +29,12 @@ var is_moving = false
 # vitesse de l'is_moving
 const SPEED = 100
 
-onready var map = get_parent().get("map")
-onready var t_map : Game_Area = get_parent().get_node("TileMap")
-
+#onready var t_map : Game_Area = get_parent().get_node("TileMap")
 onready var parent = get_parent()
 
+#Puppet variables
+
+puppet var puppet_position = Vector2(0, 0) setget puppet_position_set
 
 #detruit tout les objets dune list et clear la list
 func clearObjList(list):
@@ -51,7 +52,7 @@ onready var move_text = load("res://Objects/text.tscn").instance()
 #spawn une nouvel flech et lajoute a la list de fleches
 func newarrow(pos):
 	var new_color_node = color_node.instance()
-	parent.add_child(new_color_node)
+	get_parent().add_child(new_color_node)
 	new_color_node.position = pos
 	paths.push_front(new_color_node)
 
@@ -89,8 +90,10 @@ func draw_move(vect, vect_map):
 	# set vect to position relative au dernier mouvement
 	vect = moves[0] + vect
 	var temp = map_pos + vect_map
-	if !t_map.can_move(temp):
+	if temp.x < 0 or temp.y < 0 or Scene.map[temp.x][temp.y].colision:
 		return
+	#if !t_map.can_move(temp):
+	#	return
 	map_pos += vect_map
 	if (vect == position):
 		clear_moves(vect)
@@ -118,9 +121,10 @@ func lock_draw_move():
 				print("shutth")
 
 func _input(event):
-	if (len(moves) == 0):
-		moves.append(position)
-	if event is InputEventKey:
+	
+	if event is InputEventKey and is_network_master():
+		if (len(moves) == 0):
+			moves.append(position)
 		if is_moving == false:
 			if event.pressed and event.scancode == KEY_UP:
 				draw_move(Vector2(32, -16), Vector2(0, 1))
@@ -172,3 +176,13 @@ func player_move(delta):
 			is_moving = false
 			ccount = 0
 			
+
+func _on_Network_tick_rate_timeout():
+	print('emplie de sum0')
+	if (is_network_master()):
+		rset_unreliable("puppet_position", global_position)
+
+func puppet_position_set(new_value):
+	puppet_position = new_value
+	$Tween.interpolate_property(self, "global_position", global_position, puppet_position, 0.1)
+	$Tween.start()

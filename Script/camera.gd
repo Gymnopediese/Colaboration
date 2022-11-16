@@ -33,7 +33,8 @@ func set_pos_mode_2(delta):
 
 
 func _process(delta):
-	set_pos_mode_2(delta)
+	pass
+#set_pos_mode_2(delta)
 
 
 

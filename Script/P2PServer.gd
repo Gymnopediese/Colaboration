@@ -38,7 +38,7 @@ func join_server() -> void:
 	client = NetworkedMultiplayerENet.new()
 	client.create_client(ip_address, DEFAULT_PORT)
 	get_tree().set_network_peer(client)
-
+	
 func reset_network_connection() -> void:
 	if get_tree().has_network_peer():
 		get_tree().network_peer = null

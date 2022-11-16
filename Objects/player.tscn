@@ -17,3 +17,11 @@ offset = Vector2( -0.178, -15.106 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 12.178, 1.39 )
 shape = SubResource( 1 )
+
+[node name="Network_tick_rate" type="Timer" parent="."]
+wait_time = 0.054
+autostart = true
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="timeout" from="Network_tick_rate" to="." method="_on_Network_tick_rate_timeout"]

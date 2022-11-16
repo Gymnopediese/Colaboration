@@ -12,7 +12,7 @@ signal action
 signal walked
 
 onready var g = get_node("/root/Global")
-onready var player = load("res://Objects/player.tscn").instance()
+onready var player = load("res://Objects/player.tscn")
 
 var map = [[]]
 
@@ -21,15 +21,16 @@ func _ready():
 	#populate_player()
 	populate_items()
 	items.push_back(Item.new(0, 0, "res://Objects/text.tscn", self))
-	populate_player()
 	# TODO test signal
 	emit_signal("action")
 
 # TODO dynamic
-func populate_player():
-	add_child(player)
-	player.set_position(Vector2(500, -50))
-	player.name = "Player"
+func populate_player(id : int):
+	var player_instance = player.instance()
+	player_instance.set_position(Vector2(64, 64))
+	player_instance.name = str(id)
+	player_instance.set_network_master(id)
+	Players.add_child(player_instance)
 
 # TODO en faire une classe generale
 #class Item:
