@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=2]
 
-[ext_resource path="res://ingame_ui_script.gd" type="Script" id=1]
+[ext_resource path="res://GUI/InGame/ingame_ui_script.gd" type="Script" id=1]
 [ext_resource path="res://Arts/Fonts/dpcomic.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Arts/Fonts/dpcomic.tres" type="DynamicFont" id=3]
 [ext_resource path="res://Arts/Fonts/joystix_monospace.ttf" type="DynamicFontData" id=4]

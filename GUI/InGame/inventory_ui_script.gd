@@ -2,9 +2,9 @@ extends CanvasLayer
 
 # TODO : les infos live des joueurs doivent etre dispo dans Global !
 onready var g = $"/root/Global"
-const item_folder_prefab = preload("res://item_folder.tscn") # TODO -> changer d'endroit !
+const item_folder_prefab = preload("res://GUI/InGame/item_folder.tscn") # TODO -> changer d'endroit !
 onready var box = $Rect/Box
-# TODO : dans global ?
+# TODO : dans global 
 const item_folder_quantity: int = 6
 
 var item_folder_objects = []
@@ -19,14 +19,31 @@ enum ItemTypeId {
 
 func _ready():
 	for i in range(0, item_folder_quantity):
-		item_folder_objects.push_back(instanciate_item_folder())
-	# add_same_item(item_folder_objects[0], 2)
+		item_folder_objects.push_back(ItemFolder.new(box))
 
-func instanciate_item_folder():
-	var object = item_folder_prefab.instance()
-	object.get_child(0).visible = false # rend le numero invisible (s'il n'y a qu'un seul objet
-	box.add_child(object)
-	return object
+# Un class pour chaque case (itemfolder) de l'inventaire
+class ItemFolder:
+	var item_id: int
+	var item_quantity: int
+	var folder_object: Panel
+	var parent: Object
+	var number_panel: Panel
+	var number_text: Label
+	
+	func _init(parent: Object):
+		self.item_id = -1
+		self.item_quantity = 0
+		self.folder_object = item_folder_prefab.instance()
+		self.number_panel = self.folder_object.get_child(0)
+		self.number_text = self.number_panel.get_child(0)
+		self.number_panel.visible = false # rend le numero invisible (s'il n'y a qu'un seul objet
+		self.parent = parent
+		self.parent.add_child(self.folder_object)
+
+	# ajoute un item s'il y'en a deja un du meme type dans l'inventaire
+	func add_same_item(new_quantity: int):
+		self.number_panel.visible = true
+		self.number_text.text = str(new_quantity)
 
 # TODO class Player ! enum type ?
 # L'idee serait d'utiliser un signal envoyer partout des qu'un objets est ramasse
@@ -48,6 +65,4 @@ func find_item_index_in_list(item_type_id: int):
 			return i
 	return -1
 	
-func add_same_item(item_folder_object: Panel, new_quantity: int):
-	item_folder_object.get_child(0).visible = true
-	item_folder_object.get_child(0).get_child(0).text = str(new_quantity)
+
