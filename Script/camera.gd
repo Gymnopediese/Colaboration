@@ -22,12 +22,13 @@ func set_pos_mode_1(delta, name):
 	position = position.move_toward(Vector2(x, y), SPEED1 * delta)
 	
 func set_pos_mode_2(delta):
-	var map_pos = Players.get_child(0).get("map_pos")
-	var map_pos_current = Players.get_child(0).get("map_pos_current")
-	var diff = 0
-	diff = abs(- map_pos.y + map_pos_current.y) / ZOOMING + 1
-	zoom = zoom.move_toward(Vector2(diff, diff), SPEED2 * delta)
-	set_pos_mode_1(delta, "map_pos_current")
+	if (Players.get_child_count() != 0):
+		var map_pos = Players.get_child(0).get("map_pos")
+		var map_pos_current = Players.get_child(0).get("map_pos_current")
+		var diff = 0
+		diff = abs(- map_pos.y + map_pos_current.y) / ZOOMING + 1
+		zoom = zoom.move_toward(Vector2(diff, diff), SPEED2 * delta)
+		set_pos_mode_1(delta, "map_pos_current")
 
 
 func _process(delta):

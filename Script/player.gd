@@ -15,7 +15,7 @@ NOTE: je dit stack mais enft c des list que jutilise comme stack
 var map_pos = Vector2(0, 0)
 var map_pos_current = Vector2(0, 0)
 # stack des movements
-var moves = []
+var moves = [Vector2(64, 64)]
 # stack de la valeur des movement (movement simple = 1 mais mouvement + draw_move > 1)
 var mvalue = []
 # stack des objets fleches
@@ -35,7 +35,11 @@ onready var parent = get_parent()
 #Puppet variables
 
 puppet var puppet_position = Vector2(0, 0) setget puppet_position_set
-
+puppet var puppet_time_out = Vector2(0, 0) setget puppet_time_out_set
+#send a signal to update the map
+puppet var puppet_msignals = [] setget puppet_msignals_set
+#set the others tiles
+puppet var puppet_thertile = [] setget puppet_thertile_set
 #detruit tout les objets dune list et clear la list
 func clearObjList(list):
 	for i in range(len(list)):
@@ -50,11 +54,12 @@ onready var color_node = load("res://Objects/tile_path.tscn")
 onready var move_text = load("res://Objects/text.tscn").instance()
 
 #spawn une nouvel flech et lajoute a la list de fleches
-func newarrow(pos):
+func newarrow(pos, color = 0xffffff):
 	var new_color_node = color_node.instance()
 	get_parent().add_child(new_color_node)
 	new_color_node.position = pos
-	paths.push_front(new_color_node)
+	new_color_node.modulate = color
+	return new_color_node
 
 
 #clear tout les moves, detruit toutes les fleches
@@ -65,25 +70,29 @@ func clear_moves(vect):
 	# get_node("fpos").global_position = vect
 	ccount = 0
 	moves.append(position)
+	rset("puppet_thertile", 3)
 
 #push front un move donc creer une flech etc
 func push_move(vect):
 	moves.push_front(vect)
 	mvalue.push_front(1)
 	# get_node("fpos").global_position = vect
-	newarrow(vect)
+	paths.push_front(newarrow(vect))
 	ccount += 1
+	rset("puppet_thertile", vect)
 
 
 
 #pop un move donc detruit les fleches et recalcule le conteur
 func pop_move(vect):
+	rset("puppet_thertile", 0)
 	moves.pop_front()
 	paths[0].queue_free()
 	paths.pop_front()
 	# get_node("fpos").global_position = vect
 	ccount -= mvalue[0]
 	mvalue.pop_front()
+	
 	
 func draw_move(vect, vect_map):
 	# moves[0] = derniere position enregistré
@@ -138,6 +147,7 @@ func _input(event):
 				lock_draw_move()
 		#move # TODO recevoir un signal (toutes les x secondes) pour move
 		if event.pressed and event.scancode == KEY_ENTER:
+			rset("puppet_msignals", [map_pos.x, map_pos.y, false])
 			is_moving = true
 			moves.pop_back()
 			map_pos_current = map_pos
@@ -148,19 +158,18 @@ func _ready():
 	move_text.rect_position = Vector2(0, 0)
 
 func _process(delta):
-	player_move(delta)
 	# set le nombre de coup au text
+	
+	#if OS.get_time().second % 10 == 0 and not is_moving:
+	#	is_moving = true
+	#	moves.pop_back()
+	#	map_pos_current = map_pos
 	move_text.text = str(ccount) + " / " + str(mcount)
-	debug_position()
+	player_move(delta)
+
 	
 #64, 64 = map[0][0]
-var a = 0
-func debug_position():
-	a += 1
-	if a > 1000:
-		a = 0
-		print(position)
-		print(map_pos)
+
 func player_move(delta):
 	# animation du joueur si is_moving == TRUE
 	# SPEEP pour gerer la vitesse de deplacement
@@ -169,20 +178,61 @@ func player_move(delta):
 		if len(moves) != 0:
 			position = position.move_toward(moves[len(moves) - 1], SPEED * delta)
 			if (moves[len(moves) - 1] == position):
+				if len(paths) != 0:
+					rset("puppet_thertile", -1)
+					paths[len(paths) - 1].queue_free()
+					paths.pop_back()
 				moves.pop_back()
-				paths[len(paths) - 1].queue_free()
-				paths.pop_back()
+					
 		else:
+			rset("puppet_msignals", [map_pos.x, map_pos.y, true])
+			moves.append(global_position)
 			is_moving = false
 			ccount = 0
 			
-
+var timeoutcoutn = 0
+var timer = 10
 func _on_Network_tick_rate_timeout():
-	print('emplie de sum0')
 	if (is_network_master()):
-		rset_unreliable("puppet_position", global_position)
+		rset("puppet_position", global_position)
+	if get_tree().is_network_server():
+		timeoutcoutn += 1
+		if timeoutcoutn > 20 * timer:
+			print("mmmm")
+			timeoutcoutn = 0
+			rset("puppet_time_out", 1)
+			is_moving = true
+			moves.pop_back()
+			map_pos_current = map_pos
 
 func puppet_position_set(new_value):
 	puppet_position = new_value
 	$Tween.interpolate_property(self, "global_position", global_position, puppet_position, 0.1)
 	$Tween.start()
+
+
+func puppet_thertile_set(mode):
+	if typeof(mode) == TYPE_INT:
+		
+		if mode == -1:
+			puppet_thertile[mode].queue_free()
+			puppet_thertile.pop_back()
+		elif mode == 0:
+			puppet_thertile[mode].queue_free()
+			puppet_thertile.pop_front()
+		else:
+			clearObjList(puppet_thertile)
+	else:
+		puppet_thertile.push_front(newarrow(mode, 255))
+
+func puppet_time_out_set(voidy):
+	print("wsh bouge alors")
+	print(moves)
+	self.is_moving = true
+	self.moves.pop_back()
+	self.map_pos_current = map_pos
+	print(moves)
+	
+
+func puppet_msignals_set(signals):
+	Scene.map[signals[0]][signals[1]].colision = signals[2]

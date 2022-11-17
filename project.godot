@@ -28,6 +28,7 @@ _global_script_class_icons={
 
 config/name="Collab"
 run/main_scene="res://main.tscn"
+boot_splash/fullsize=false
 config/icon="res://icon.png"
 
 [autoload]
@@ -39,8 +40,7 @@ Players="*res://Players.tscn"
 
 [display]
 
-window/size/width=1536
-window/size/height=960
+window/size/width=600
 
 [gui]
 
