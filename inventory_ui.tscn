@@ -36,46 +36,7 @@ custom_constants/separation = 20
 alignment = 1
 
 [node name="Item1" type="ColorRect" parent="Rect/Box"]
-margin_right = 77.0
-margin_bottom = 74.0
-size_flags_horizontal = 7
-size_flags_vertical = 3
-color = Color( 0.0588235, 0.027451, 0.027451, 0.443137 )
-
-[node name="Item2" type="ColorRect" parent="Rect/Box"]
-margin_left = 97.0
-margin_right = 175.0
-margin_bottom = 74.0
-size_flags_horizontal = 7
-size_flags_vertical = 3
-color = Color( 0.0588235, 0.027451, 0.027451, 0.443137 )
-
-[node name="Item3" type="ColorRect" parent="Rect/Box"]
-margin_left = 195.0
-margin_right = 273.0
-margin_bottom = 74.0
-size_flags_horizontal = 7
-size_flags_vertical = 3
-color = Color( 0.0588235, 0.027451, 0.027451, 0.443137 )
-
-[node name="Item4" type="ColorRect" parent="Rect/Box"]
-margin_left = 293.0
-margin_right = 371.0
-margin_bottom = 74.0
-size_flags_horizontal = 7
-size_flags_vertical = 3
-color = Color( 0.0588235, 0.027451, 0.027451, 0.443137 )
-
-[node name="Item5" type="ColorRect" parent="Rect/Box"]
-margin_left = 391.0
-margin_right = 469.0
-margin_bottom = 74.0
-size_flags_horizontal = 7
-size_flags_vertical = 3
-color = Color( 0.0588235, 0.027451, 0.027451, 0.443137 )
-
-[node name="Item6" type="ColorRect" parent="Rect/Box"]
-margin_left = 489.0
+visible = false
 margin_right = 567.0
 margin_bottom = 74.0
 size_flags_horizontal = 7

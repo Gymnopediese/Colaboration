@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://ingame_ui_script.gd" type="Script" id=1]
 [ext_resource path="res://Arts/Fonts/dpcomic.ttf" type="DynamicFontData" id=2]
@@ -12,17 +12,21 @@ size = 100
 extra_spacing_top = -12
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=6]
+size = 280
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=7]
 size = 200
 font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=3]
 size = 100
-font_data = ExtResource( 6 )
+font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=4]
 size = 120
-font_data = ExtResource( 6 )
+font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=5]
 size = 25
@@ -34,7 +38,7 @@ script = ExtResource( 1 )
 [node name="GoldColorRect" type="ColorRect" parent="."]
 margin_right = 316.0
 margin_bottom = 168.0
-color = Color( 0.815686, 0.588235, 0.054902, 0.0588235 )
+color = Color( 0.815686, 0.588235, 0.054902, 0 )
 
 [node name="label" type="RichTextLabel" parent="GoldColorRect"]
 anchor_left = 0.5
@@ -66,16 +70,27 @@ anchor_right = 0.5
 margin_left = -100.0
 margin_right = 100.0
 margin_bottom = 200.0
-color = Color( 0.054902, 0.317647, 0.815686, 0.192157 )
+color = Color( 0.054902, 0.317647, 0.815686, 0 )
+
+[node name="TimeCounter_old" type="RichTextLabel" parent="TimerColorRect"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -50.0
+margin_top = -37.0
+margin_right = 317.0
+margin_bottom = 281.0
+custom_fonts/normal_font = SubResource( 6 )
+text = "5"
 
 [node name="TimeCounter" type="RichTextLabel" parent="TimerColorRect"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -76.0
-margin_top = -41.0
-margin_right = 205.0
-margin_bottom = 213.0
-custom_fonts/normal_font = SubResource( 2 )
+margin_left = -82.0
+margin_top = -47.0
+margin_right = 199.0
+margin_bottom = 207.0
+custom_fonts/normal_font = SubResource( 7 )
 text = "5"
 
 [node name="label" type="RichTextLabel" parent="TimerColorRect"]
@@ -95,9 +110,30 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -200.0
 margin_top = -200.0
-color = Color( 0.152941, 0.52549, 0.156863, 0.0470588 )
+color = Color( 0.152941, 0.52549, 0.156863, 0 )
 
 [node name="MovingPoints" type="RichTextLabel" parent="MovePointsColorRect"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -52.0
+margin_top = 41.0
+margin_right = 2.0
+margin_bottom = 134.0
+custom_fonts/normal_font = SubResource( 3 )
+text = "1"
+
+[node name="MovingPointsMax" type="RichTextLabel" parent="MovePointsColorRect"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -2.0
+margin_top = 70.0
+margin_right = 107.0
+margin_bottom = 182.0
+custom_fonts/normal_font = SubResource( 4 )
+text = "5"
+
+[node name="MovingPointsOld" type="RichTextLabel" parent="MovePointsColorRect"]
+visible = false
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -52.0
@@ -107,7 +143,8 @@ margin_bottom = 109.0
 custom_fonts/normal_font = SubResource( 3 )
 text = "1"
 
-[node name="MovingPointsMax" type="RichTextLabel" parent="MovePointsColorRect"]
+[node name="MovingPointsMaxOld" type="RichTextLabel" parent="MovePointsColorRect"]
+visible = false
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = 3.0

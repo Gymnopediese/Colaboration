@@ -29,11 +29,11 @@ func _process(delta):
 	
 	# TEST
 	gold = 1 + gold
-	print(gold)
+
 	update_gold_score(gold)
 
 func update_gold_score(new_score: int):
-	print (new_score)
+
 	gold_count_text.text = str(new_score)
 	# TODO animation ? # bourse / tas d'or qui monte ?
 
