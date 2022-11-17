@@ -28,7 +28,7 @@ var map
 func _ready():
 	print("col")
 	map = get_parent().get("map")
-	rng.seed = OS.get_time().second
+	rng.seed = 42#OS.get_time().second
 	#rng.seed = 42
 	var round_size : int = -g.y_blocks_per_round - g.y_blocks_per_checkpoint
 	var distance : int
@@ -45,7 +45,7 @@ func _ready():
 # set cell + set colition
 func set_sell_and_colid(x, y, tile, obj):
 	obj.set_cell(x, y, tile)
-	map[x - 2][-y - 1].colision = true;
+	Scene.map[x - 2][- y - 1].colision = true;
 
 # le bridge
 func populate_chunk1(y_start: int):

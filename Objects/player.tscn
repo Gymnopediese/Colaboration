@@ -10,6 +10,7 @@ position = Vector2( 0, -0.284 )
 script = ExtResource( 1 )
 
 [node name="Scarecrow" type="Sprite" parent="."]
+modulate = Color( 1, 0.941176, 0.0313726, 1 )
 position = Vector2( 12.178, 1.39 )
 texture = ExtResource( 2 )
 offset = Vector2( -0.178, -15.106 )
@@ -17,3 +18,16 @@ offset = Vector2( -0.178, -15.106 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 12.178, 1.39 )
 shape = SubResource( 1 )
+
+[node name="Network_tick_rate" type="Timer" parent="."]
+wait_time = 0.054
+autostart = true
+
+[node name="Network_tick_rate2" type="Timer" parent="."]
+wait_time = 0.05
+autostart = true
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="timeout" from="Network_tick_rate" to="." method="_on_Network_tick_rate_timeout"]
+[connection signal="timeout" from="Network_tick_rate2" to="." method="_on_Network_tick_rate_timeout"]

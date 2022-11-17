@@ -11,18 +11,16 @@ class Tile:
 	var item: int
 		
 
-onready var map = get_parent().get("map")
 
 func populate_map():
 	for x in range (15):
-		map.append([])
+		Scene.map.append([])
 		for y in range (100):
-			map[x].append(Tile.new())
-			map[x][y].colision = false;
-			map[x][y].item = 0;
+			Scene.map[x].append(Tile.new())
+			Scene.map[x][y].colision = false;
+			Scene.map[x][y].item = 0;
 
 func _ready():
-	print("mapinit")
 	populate_map()
 	
 
