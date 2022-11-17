@@ -1,4 +1,8 @@
 .import
+*.import
+*/*.import
+*/*/*.import
+*/*/*/*.import
 .DS_Store
 .gitignore
 .mono/

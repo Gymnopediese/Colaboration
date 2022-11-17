@@ -14,10 +14,6 @@ func _ready():
 	get_tree().connect("network_peer_connected", self, "_player_connected")
 	device_ip_adresse.text = P2PServer.ip_address
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
 func _player_connected(id) -> void:
 	print("Player " + str(id) + " is connected")
 
@@ -25,7 +21,7 @@ func _player_disconnected(id) -> void:
 	print("Player " + str(id) + " is disconnected")
 
 func _on_StartButton_pressed():
-	get_tree().change_scene("res://m.tscn")
+	get_tree().change_scene("res://main.tscn")
 
 func _on_OptionButton_pressed():
 	pass # A faire

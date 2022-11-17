@@ -18,6 +18,8 @@ func _ready() -> void:
 		ip_address = IP.get_local_addresses()[3]
 	elif OS.get_name() == "Android":
 		ip_address = IP.get_local_addresses()[0]
+	elif OS.get_name() == "X11": # LINUX (en tout cas sur le Lenovo de Quentin)
+		ip_address = IP.get_local_addresses()[0]
 	else:
 		ip_address = IP.get_local_addresses()[7]
 	print(IP.get_local_addresses())
