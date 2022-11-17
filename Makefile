@@ -1,6 +1,9 @@
-commit:
+RIP="null"
+action:
+	RIP=$(filter-out $@,$(MAKECMDGOALS))
+commit: action
 	git add *
-	git commit -m "enorme turbo fleme de add commit push"
+	git commit -m ${RIP}
 push: commit
 	git push
 pull: commit

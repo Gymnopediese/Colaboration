@@ -37,6 +37,7 @@ Global="*res://Script/global.gd"
 P2PServer="*res://Script/P2PServer.gd"
 Scene="*res://Script/scene.gd"
 Players="*res://Players.tscn"
+SceneUtils="*res://Libgodot/SceneUtils.gd"
 
 [display]
 

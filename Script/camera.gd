@@ -16,17 +16,21 @@ func camtrack(num):
 
 
 func set_pos_mode_1(delta, name):
-	var xtemp = Players.get_child(0).get(name).y * 32
+	var player_moves =  Players.get_child(0).get("player_moves")
+	var xtemp = player_moves.get(name).y * 32
 	var x = xtemp + 500
 	var y = -camtrack(xtemp)
 	position = position.move_toward(Vector2(x, y), SPEED1 * delta)
 	
 func set_pos_mode_2(delta):
 	if (Players.get_child_count() != 0):
-		var map_pos = Players.get_child(0).get("map_pos")
-		var map_pos_current = Players.get_child(0).get("map_pos_current")
+		var player_moves =  Players.get_child(0).get("player_moves")
+		var map_pos = player_moves.get("map_pos")
+		var map_pos_current = player_moves.get("map_pos_current")
+		print(map_pos)
+		print(map_pos_current)
 		var diff = 0
-		diff = abs(- map_pos.y + map_pos_current.y) / ZOOMING + 1
+		diff = abs(-map_pos.y + map_pos_current.y) / ZOOMING + 1
 		zoom = zoom.move_toward(Vector2(diff, diff), SPEED2 * delta)
 		set_pos_mode_1(delta, "map_pos_current")
 
