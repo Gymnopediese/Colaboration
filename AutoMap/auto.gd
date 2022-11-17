@@ -1,7 +1,7 @@
 extends TileMap
 class_name Game_Area
 
-enum t_id {		# TODO : dans global ??
+enum t_id {
 	grass,
 	dirt,
 	pav1,
@@ -14,15 +14,11 @@ enum t_id {		# TODO : dans global ??
 	wheat,
 }
 
-onready var g = get_node("/root/Global")
+onready var g = $"/root/Global"
 onready var checkpoint = load("res://Map/Checkpoints/Checkpoint.tscn").instance()
-var chunk1 = load("res://Map/Pont.tscn").instance()
-const tile_x = 32
-const tile_y = 16
-
 var rng = RandomNumberGenerator.new();
 
-#TODO: CASSE TOI DE LAAAAA (mais jai pas le choix pour le moment c la vie pardon)
+#TODO: mettre dans un autoload que tous on acces
 var map
 
 func _ready():
@@ -32,7 +28,6 @@ func _ready():
 	#rng.seed = 42
 	var round_size : int = -g.y_blocks_per_round - g.y_blocks_per_checkpoint
 	var distance : int
-	#populate_chunk1(5)
 	for i in range(g.number_of_rounds):
 		populate_border(distance)
 		populate_basic_middle(distance)
@@ -46,12 +41,6 @@ func _ready():
 func set_sell_and_colid(x, y, tile, obj):
 	obj.set_cell(x, y, tile)
 	map[x - 2][-y - 1].colision = true;
-
-# le bridge
-func populate_chunk1(y_start: int):
-	add_child(chunk1)
-	var start = Vector2(-32, 15)
-	chunk1.set_position(start + Vector2(y_start * tile_x, y_start * -tile_y))
 
 # ajoute les bords
 func populate_border(start : int):

@@ -28,5 +28,5 @@ var number_of_players = 2
 
 
 #### UTILS.gd 
-func global_pos_to_map_pos(vect):
+func global_pos_to_map_pos(vect) -> Vector2:
 	return Vector2(vect.x / 16, vect.y / 16)
