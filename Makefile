@@ -1,9 +1,6 @@
-RIP="null"
-action:
-	RIP=$(filter-out $@,$(MAKECMDGOALS))
-commit: action
+commit:
 	git add *
-	git commit -m ${RIP}
+	git commit -m $(filter-out $@,$(MAKECMDGOALS))
 push: commit
 	git push
 pull: commit
