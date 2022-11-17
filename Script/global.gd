@@ -18,6 +18,8 @@ const x_blocks_border = 3;
 #Road
 const road_size = 4;
 
+#Camera
+var camera_start = false
 
 ###### to be defined by the settings #######
 

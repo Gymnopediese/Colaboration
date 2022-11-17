@@ -14,7 +14,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://AutoMap/auto.gd"
 }, {
-"base": "Node2D",
+"base": "Sprite",
 "class": "Item",
 "language": "GDScript",
 "path": "res://Script/Item.gd"
@@ -27,18 +27,21 @@ _global_script_class_icons={
 [application]
 
 config/name="Collab"
-run/main_scene="res://GUI/Menu/main_menu.tscn"
+run/main_scene="res://main.tscn"
+boot_splash/fullsize=false
 config/icon="res://icon.png"
 
 [autoload]
 
 Global="*res://Script/global.gd"
 P2PServer="*res://Script/P2PServer.gd"
+Scene="*res://Script/scene.gd"
+Players="*res://Players.tscn"
+SceneUtils="*res://Libgodot/SceneUtils.gd"
 
 [display]
 
-window/size/width=1536
-window/size/height=960
+window/size/width=600
 
 [gui]
 
